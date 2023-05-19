@@ -24,4 +24,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //}); //還沒加 middleware
 
 Route::resource('bike_brands', BikeBrandController::class)
-    ->only('index', 'show', 'store', 'destroy');
+    ->only('index', 'show', 'store', 'update', 'destroy');

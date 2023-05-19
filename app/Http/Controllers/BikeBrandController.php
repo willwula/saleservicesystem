@@ -63,6 +63,27 @@ class BikeBrandController extends Controller
     }
 
     /**
+     * 更新一筆 bike_brand 內容
+     *
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
+    public function update(Request $request, $id)
+    {
+//        $this->authorize('update', [BikeBrand::class]); //policy
+        $validated = $request->validate([
+            'name' => 'string|required|max:255',
+            'description' => 'string|nullable|max:255',
+        ]);
+
+        BikeBrand::find($id)->update($validated);
+
+        return BikeBrand::find($id);
+
+    }
+
+    /**
      * 刪除一個 bike_brand
      *
      * @param $id
@@ -77,4 +98,5 @@ class BikeBrandController extends Controller
 
         return 'successful';
     }
+
 }
