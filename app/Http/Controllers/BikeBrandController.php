@@ -61,4 +61,20 @@ class BikeBrandController extends Controller
 
         return $bikeBrand;
     }
+
+    /**
+     * 刪除一個 bike_brand
+     *
+     * @param $id
+     * @return string
+     */
+    public function destroy($id)
+    {
+//        $this->authorize('delete', [BikeBrand::class]); //policy
+        $bikeBrand = BikeBrand::find($id);
+
+        $bikeBrand->delete();
+
+        return 'successful';
+    }
 }
