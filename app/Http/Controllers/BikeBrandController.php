@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\BikeBrand;
-use App\Models\BikeBrandModel;
 
 /**
  * @group bike_columns
@@ -27,5 +26,17 @@ class BikeBrandController extends Controller
 //        $this->authorize('viewAny', [BikeBrandModel::class]); //policy
         $bikeBrands = BikeBrand::orderBy('order');
         return $bikeBrands->paginate('20');
+    }
+
+    /**
+     * 查看單一 bike_brand 內容
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function show($id)
+    {
+        $bikeBrand = BikeBrand::find($id);
+        return $bikeBrand;
     }
 }
