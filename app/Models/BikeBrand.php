@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BikeBrandModel extends Model
+class BikeBrand extends Model
 {
     use HasFactory;
 
-//    protected $fillable = [
-//        'name',
-//        'description',
-//    ];
+    protected $fillable = [
+        'name',
+        'order',
+        'description',
+    ];
 }

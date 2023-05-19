@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BikeBrand;
 use App\Models\BikeBrandModel;
 
 /**
@@ -16,10 +17,15 @@ use App\Models\BikeBrandModel;
 
 class BikeBrandController extends Controller
 {
+    /**
+     * 取得 bike_brands 清單
+     *
+     * 適用於下拉式選單等
+     */
     public function index()
     {
-        $this->authorize('viewAny', [BikeBrandModel::class]); //policy
-        $bikeBrands = BikeBrandModel::latest();
-        return $bikeBrands->paginate();
+//        $this->authorize('viewAny', [BikeBrandModel::class]); //policy
+        $bikeBrands = BikeBrand::orderBy('order');
+        return $bikeBrands->paginate('20');
     }
 }
