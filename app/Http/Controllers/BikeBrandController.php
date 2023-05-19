@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BikeBrand;
+use Illuminate\Http\Request;
 
 /**
  * @group bike_columns
@@ -36,7 +37,28 @@ class BikeBrandController extends Controller
      */
     public function show($id)
     {
+//        $this->authorize('view', [BikeBrand::class]); //policy
         $bikeBrand = BikeBrand::find($id);
+        return $bikeBrand;
+    }
+
+    /**
+     * 新增 bike_brand
+     *
+     * @param Request $request
+     * @return mixed
+     */
+    public function store(Request $request)
+    {
+//        $this->authorize('create', [BikeBrand::class]); //policy
+
+        $validated = $request->validate([
+            'name' => 'string|required|max:255',
+            'description' => 'string|nullable|max:255',
+        ]);
+
+        $bikeBrand =  BikeBrand::create($validated);
+
         return $bikeBrand;
     }
 }
