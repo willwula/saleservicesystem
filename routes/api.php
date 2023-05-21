@@ -3,6 +3,7 @@
 use App\Http\Controllers\BikeBrandController;
 use App\Http\Controllers\BikeModelController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ManagerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,3 +29,14 @@ Route::resource('bike-models', BikeModelController::class)
     ->only('index', 'show', 'store', 'update', 'destroy');
 
 Route::apiResource('products', ProductController::class)->only('index','store');
+
+Route::prefix('manager')->group( function () {
+    Route::post('register', [RegisterController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
+
+    Route::middleware('auth:manager')->group(function() {
+        Route::post('logout', [AuthController::class, 'logout']);
+        Route::apiResource('managers', ManagerController::class)
+            ->only('store');
+    });
+});
