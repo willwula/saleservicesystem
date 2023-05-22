@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Middleware\Authenticate;
+use App\Http\Resources\BikeBrandCollection;
+use App\Http\Resources\BikeBrandResource;
 use App\Models\BikeBrand;
 use Illuminate\Http\Request;
 
@@ -35,10 +37,10 @@ class BikeBrandController extends Controller
         // 如果前端想要分頁顯示
         $paginate = (int) $request->paginate;
         if ($paginate === 1 ) {
-            return $bikeBrands->paginate('20');
+            return BikeBrandCollection::make($bikeBrands->paginate('20'));
         }
 
-        return $bikeBrands->get();
+        return BikeBrandCollection::make($bikeBrands->get());
     }
 
     /**
@@ -51,7 +53,7 @@ class BikeBrandController extends Controller
     {
 //        $this->authorize('view', [BikeBrand::class]); //policy
         $bikeBrand = BikeBrand::find($id);
-        return $bikeBrand;
+        return BikeBrandResource::make($bikeBrand);
     }
 
     /**
@@ -71,7 +73,7 @@ class BikeBrandController extends Controller
 
         $bikeBrand =  BikeBrand::create($validated);
 
-        return $bikeBrand;
+        return BikeBrandResource::make($bikeBrand);
     }
 
     /**
@@ -91,7 +93,7 @@ class BikeBrandController extends Controller
 
         BikeBrand::find($id)->update($validated);
 
-        return BikeBrand::find($id);
+        return BikeBrandResource::make(BikeBrand::find($id));
 
     }
 
