@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Middleware\Authenticate;
 use App\Http\Resources\BikeBrandCollection;
 use App\Http\Resources\BikeBrandResource;
 use App\Models\BikeBrand;
@@ -27,7 +26,6 @@ class BikeBrandController extends Controller
      * 廠牌列表，可用於下拉式選單或廠牌清單
      * @urlParam  paginate 如果是 1 提供每 20 筆分頁 Example: ?paginate=1
      *
-     * @return mixed
      */
     public function index(Request $request)
     {
@@ -35,8 +33,7 @@ class BikeBrandController extends Controller
         $bikeBrands = BikeBrand::orderBy('order');
 
         // 如果前端想要分頁顯示
-        $paginate = (int) $request->paginate;
-        if ($paginate === 1 ) {
+        if ($request->boolean('paginate') === true) {
             return BikeBrandCollection::make($bikeBrands->paginate('20'));
         }
 
@@ -46,21 +43,20 @@ class BikeBrandController extends Controller
     /**
      * 查看單一 bike_brand 內容
      *
-     * @param $id
-     * @return mixed
+     * @urlParam id 廠牌id Example: 1
      */
-    public function show($id)
+    public function show(BikeBrand $bikeBrand)
     {
 //        $this->authorize('view', [BikeBrand::class]); //policy
-        $bikeBrand = BikeBrand::find($id);
+
         return BikeBrandResource::make($bikeBrand);
     }
 
     /**
      * 新增 bike_brand
      *
-     * @param Request $request
-     * @return mixed
+     * @bodyparam name string:255 廠牌名稱 Example: Giant
+     * @bodyparam description string:255 廠牌描述 Example: 臺灣創立的世界級自行車製造商
      */
     public function store(Request $request)
     {
@@ -71,19 +67,17 @@ class BikeBrandController extends Controller
             'description' => 'string|nullable|max:255',
         ]);
 
-        $bikeBrand =  BikeBrand::create($validated);
-
-        return BikeBrandResource::make($bikeBrand);
+        return BikeBrandResource::make(BikeBrand::create($validated));
     }
 
     /**
      * 更新一筆 bike_brand 內容
      *
-     * @param Request $request
-     * @param $id
-     * @return mixed
+     * @urlParam id 廠牌id Example: 1
+     * @bodyparam name string:255 廠牌名稱 Example: Giant
+     * @bodyparam description string:255 廠牌描述 Example: 臺灣創立的世界級自行車製造商
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, BikeBrand $bikeBrand)
     {
 //        $this->authorize('update', [BikeBrand::class]); //policy
         $validated = $request->validate([
@@ -91,22 +85,19 @@ class BikeBrandController extends Controller
             'description' => 'string|nullable|max:255',
         ]);
 
-        BikeBrand::find($id)->update($validated);
+        $bikeBrand->update($validated);
 
-        return BikeBrandResource::make(BikeBrand::find($id));
-
+        return BikeBrandResource::make($bikeBrand);
     }
 
     /**
      * 刪除一個 bike_brand
      *
-     * @param $id
-     * @return string
+     * @urlParam id 廠牌id Example: 1
      */
-    public function destroy($id)
+    public function destroy(BikeBrand $bikeBrand)
     {
 //        $this->authorize('delete', [BikeBrand::class]); //policy
-        $bikeBrand = BikeBrand::find($id);
 
         $bikeBrand->delete();
 
