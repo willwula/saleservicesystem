@@ -78,27 +78,4 @@ class BikeBrandPolicy
             : Response::deny('無此操作權限');
     }
 
-    /**
-     * Determine whether the manager can restore the model.
-     *
-     * @param \App\Models\Manager $manager
-     * @param \App\Models\BikeBrand $bikeBrand
-     * @return Response|bool
-     */
-    public function restore(Manager $manager, BikeBrand $bikeBrand)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the manager can permanently delete the model.
-     *
-     * @param \App\Models\Manager $manager
-     * @param \App\Models\BikeBrand $bikeBrand
-     * @return Response|bool
-     */
-    public function forceDelete(Manager $manager, BikeBrand $bikeBrand)
-    {
-        //
-    }
 }
