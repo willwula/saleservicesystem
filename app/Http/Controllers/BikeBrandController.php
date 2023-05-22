@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\Authenticate;
 use App\Models\BikeBrand;
 use Illuminate\Http\Request;
 
@@ -17,16 +18,27 @@ use Illuminate\Http\Request;
 
 class BikeBrandController extends Controller
 {
+
     /**
      * 取得 bike_brands 清單
      *
-     * 適用於下拉式選單等
+     * 廠牌列表，可用於下拉式選單或廠牌清單
+     * @urlParam  paginate 如果是 1 提供每 20 筆分頁 Example: ?paginate=1
+     *
+     * @return mixed
      */
-    public function index()
+    public function index(Request $request)
     {
 //        $this->authorize('viewAny', [BikeBrandModel::class]); //policy
         $bikeBrands = BikeBrand::orderBy('order');
-        return $bikeBrands->paginate('20');
+
+        // 如果前端想要分頁顯示
+        $paginate = (int) $request->paginate;
+        if ($paginate === 1 ) {
+            return $bikeBrands->paginate('20');
+        }
+
+        return $bikeBrands->get();
     }
 
     /**
