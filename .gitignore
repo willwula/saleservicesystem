@@ -18,3 +18,4 @@ yarn-error.log
 /.vscode
 /.scribe
 /public/docs
+/public/php_errors.log

@@ -1,0 +1,15 @@
+[18-May-2023 13:30:24 Asia/Taipei] PHP Warning:  require(/Users/mia/Sites/maintainSystem/vendor/autoload.php): Failed to open stream: No such file or directory in /Users/mia/Sites/maintainSystem/artisan on line 18
+[18-May-2023 13:30:24 Asia/Taipei] PHP Warning:  require(/Users/mia/Sites/maintainSystem/vendor/autoload.php): Failed to open stream: No such file or directory in /Users/mia/Sites/maintainSystem/artisan on line 18
+[18-May-2023 13:30:24 Asia/Taipei] PHP Fatal error:  Uncaught Error: Failed opening required '/Users/mia/Sites/maintainSystem/vendor/autoload.php' (include_path='.:/usr/local/Cellar/php@8.1/8.1.19/share/php@8.1/pear') in /Users/mia/Sites/maintainSystem/artisan:18
+Stack trace:
+#0 {main}
+  thrown in /Users/mia/Sites/maintainSystem/artisan on line 18
+[18-May-2023 13:30:24 Asia/Taipei] PHP Fatal error:  Uncaught Error: Failed opening required '/Users/mia/Sites/maintainSystem/vendor/autoload.php' (include_path='.:/usr/local/Cellar/php@8.1/8.1.19/share/php@8.1/pear') in /Users/mia/Sites/maintainSystem/artisan:18
+Stack trace:
+#0 {main}
+  thrown in /Users/mia/Sites/maintainSystem/artisan on line 18
+[18-May-2023 13:33:12 Asia/Taipei] PHP Warning:  require(/Users/mia/Sites/maintainSystem/vendor/autoload.php): Failed to open stream: No such file or directory in /Users/mia/Sites/maintainSystem/artisan on line 18
+[18-May-2023 13:33:12 Asia/Taipei] PHP Fatal error:  Uncaught Error: Failed opening required '/Users/mia/Sites/maintainSystem/vendor/autoload.php' (include_path='.:/usr/local/Cellar/php@8.1/8.1.19/share/php@8.1/pear') in /Users/mia/Sites/maintainSystem/artisan:18
+Stack trace:
+#0 {main}
+  thrown in /Users/mia/Sites/maintainSystem/artisan on line 18
