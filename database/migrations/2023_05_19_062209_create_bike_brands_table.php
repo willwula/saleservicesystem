@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('bike_brands', function (Blueprint $table) {
             $table->id()->unique()->autoIncrement();
             $table->integer('order')->default(0);
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('description')->nullable();
             $table->timestamps();
         });
