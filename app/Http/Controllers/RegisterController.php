@@ -23,7 +23,6 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $validated = $this->validate($request, [
-            // docs: available validation rules
             'name' => 'required|string|max:20',
             'email' => 'required|email|max:255',
             'password' => 'required|alpha_num:ascii|min:6|max:255|confirmed'
