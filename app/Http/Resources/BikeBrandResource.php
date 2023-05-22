@@ -16,7 +16,6 @@ class BikeBrandResource extends JsonResource
     {
         return [
             'id'          => $this->id,
-            'order'       => $this->order,
             'name'        => $this->name,
             'description' => $this->description,
         ];
