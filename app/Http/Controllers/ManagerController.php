@@ -22,5 +22,17 @@ class ManagerController extends Controller
         return '123';
     }
 
+    public function store(Request $request)
+    {
+//        $this->authorize('create', [Book::class]); //這邊的 Book::class 會 call BookPolicy 的 create method
+        $manager = Auth::user();
+        $validated = $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'email' => 'email|required|max:255',
+            'password' => 'required|alpha_num:ascii|min:6|max:12'
 
+        ]);
+
+        return $manager->managers()->create($validated);
+    }
 }
