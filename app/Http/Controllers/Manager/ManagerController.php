@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Manager;
 
+use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Models\Manager;
 use Illuminate\Http\Request;
@@ -17,15 +18,10 @@ use Illuminate\Support\Facades\Auth;
 */
 class ManagerController extends Controller
 {
-    public function create()
-    {
-        return '123';
-    }
-
     public function store(Request $request)
     {
-//        $this->authorize('create', [Book::class]); //這邊的 Book::class 會 call BookPolicy 的 create method
-        $manager = Auth::user();
+        $this->authorize('create', [Manager::class]);
+        $manager = Auth::guard('manager')->user();
         $validated = $this->validate($request, [
             'name' => 'required|string|max:255',
             'email' => 'email|required|max:255',

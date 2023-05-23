@@ -24,10 +24,10 @@ class Manager extends Authenticatable implements JWTSubject, MustVerifyEmail
         'role',
         'status',
         'email',
-        'password',
         'phone',
         'address',
         'serviceCenter_id',
+        'password',
         'email_verified_at',
     ];
 
