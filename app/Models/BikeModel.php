@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BikeBrand extends Model
+class BikeModel extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'order',
-        'description',
+        'bike_brand_id',
+        'name'
     ];
 
-    public function  bikeModels()
+    public function bikeBrand()
     {
-        $this->hasMany(BikeModel::class);
+        $this->belongsTo(BikeBrand::class);
     }
+
 }
