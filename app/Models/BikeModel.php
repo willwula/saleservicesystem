@@ -21,7 +21,7 @@ class BikeModel extends Model
 
     public function bikeMaterials()
     {
-        $this->hasMany(BikeMaterial::class);
+        $this->belongsToMany(BikeMaterial::class);
     }
 
 }

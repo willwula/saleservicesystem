@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('bike_materials', function (Blueprint $table) {
+        Schema::create('bike_models_bike_materials', function (Blueprint $table) {
             $table->id();
-            $table->integer('bike_part_id')->nullable(false);
-            $table->string('partial_number')->unique();
-            $table->decimal('price', 11,2);
-            $table->integer('warranty_month');
+            $table->integer('bike_model_id');
+            $table->integer('bike_material_id');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bike_materials');
+        Schema::dropIfExists('bike_models_bike_materials');
     }
 };

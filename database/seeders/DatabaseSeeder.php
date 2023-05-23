@@ -16,11 +16,11 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             BikeBrandsSeeder::class,
-            ProductSeeder::class,
             BikeModelsSeeder::class,
             BikePartSeeder::class,
             BikeMaterialSeeder::class,
             ShipperSeeder::class,
+            ProductSeeder::class,
         ]);
     }
 }

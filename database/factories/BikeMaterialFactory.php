@@ -18,12 +18,10 @@ class BikeMaterialFactory extends Factory
      */
     public function definition()
     {
-        $model = BikeModel::inRandomOrder()->first();
         $part = BikePart::inRandomOrder()->first();
         return [
-            'bike_model_id'  => $model->id,
             'bike_part_id'   => $part->id,
-            'partial_number' => $model->name . "-" . fake()->randomNumber(5, true),
+            'partial_number' => "m-" . fake()->randomNumber(5, true),
             'price' => fake()->randomFloat(2),
             'warranty_month' => random_int(1, 12),
         ];

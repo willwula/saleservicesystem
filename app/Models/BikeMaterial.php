@@ -10,7 +10,6 @@ class BikeMaterial extends Model
     use HasFactory;
 
     protected $fillable = [
-        'bike_model_id',
         'bike_part_id',
         'partial_number',
         'price',
@@ -19,7 +18,7 @@ class BikeMaterial extends Model
 
     public function bikeModel()
     {
-        $this->belongsTo(BikeModel::class);
+        $this->belongsToMany(BikeModel::class);
     }
 
     public function bikeParts()
