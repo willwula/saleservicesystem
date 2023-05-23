@@ -14,6 +14,6 @@ class BikeModelsSeeder extends Seeder
      */
     public function run()
     {
-        BikeModel::factory()->count(3)->create();
+        BikeModel::factory()->count(10)->create();
     }
 }

@@ -20,7 +20,7 @@ class bikeModelFactory extends Factory
 
         $brand = BikeBrand::find(rand(1,6));
         return [
-            'bike_brand_id' => $brand,
+            'bike_brand_id' => $brand->id,
             'name' => $brand->name . "-" .fake()->word,
         ];
     }
