@@ -18,7 +18,7 @@ class ProductSeeder extends Seeder
      */
     public function run(Product $product)
     {
-        $number = $product->latest('id')->first()->id + 1;
+        $number = optional($product->latest('id')->first())->id + 1;
         $numberOfDigits = 6;
         $formattedDate = Carbon::now()->format('ymd');
         $registedDate = Carbon::now()->format('Y-m-d'); 
