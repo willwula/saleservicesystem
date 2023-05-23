@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\BikeModel>
  */
-class BikeModelFactory extends Factory
+class bikeModelFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,7 +20,7 @@ class BikeModelFactory extends Factory
 
         $brand = BikeBrand::find(rand(1,6));
         return [
-            'bike_brand_id' => $brand->id,
+            'bike_brand_id' => $brand,
             'name' => $brand->name . "-" .fake()->word,
         ];
     }
