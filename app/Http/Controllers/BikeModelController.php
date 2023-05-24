@@ -128,4 +128,18 @@ class BikeModelController extends Controller
 
         return BikeModelResource::make($bikeModel);
     }
+
+    /**
+     * 刪除一個 bike_model
+     *
+     * @urlParam id 車款 id Example: 1
+     */
+    public function destroy(BikeModel $bikeModel)
+    {
+        $bikeModel->delete();
+
+        // 尚未加入刪除底下所屬 bike_materials
+
+        return 'successful';
+    }
 }
