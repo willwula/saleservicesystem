@@ -25,6 +25,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::resource('bike-brands', BikeBrandController::class)
     ->only('index', 'show', 'store', 'update', 'destroy');
 Route::resource('bike-models', BikeModelController::class)
-    ->only('index', 'show', 'store');
+    ->only('index', 'show', 'store', 'update', );
 
 Route::apiResource('products', ProductController::class)->only('index','store');
