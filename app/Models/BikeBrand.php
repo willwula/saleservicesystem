@@ -15,8 +15,8 @@ class BikeBrand extends Model
         'description',
     ];
 
-    public function  bikeModels()
+    public function bikeModels()
     {
-        $this->hasMany(BikeModel::class);
+        return $this->hasMany(BikeModel::class);
     }
 }

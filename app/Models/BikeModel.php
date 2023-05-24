@@ -16,12 +16,12 @@ class BikeModel extends Model
 
     public function bikeBrand()
     {
-        $this->belongsTo(BikeBrand::class);
+        return $this->belongsTo(BikeBrand::class);
     }
 
     public function bikeMaterials()
     {
-        $this->belongsToMany(BikeMaterial::class);
+        return $this->belongsToMany(BikeMaterial::class);
     }
 
 }

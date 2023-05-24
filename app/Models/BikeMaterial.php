@@ -16,14 +16,14 @@ class BikeMaterial extends Model
         'warranty_month',
     ];
 
-    public function bikeModel()
+    public function bikeModels()
     {
-        $this->belongsToMany(BikeModel::class);
+        return $this->belongsToMany(BikeModel::class);
     }
 
-    public function bikeParts()
+    public function bikePart()
     {
-        $this->belongsTo(BikePart::class);
+        return $this->belongsTo(BikePart::class);
     }
 
 }
