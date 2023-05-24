@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('bike_materials', function (Blueprint $table) {
             $table->id();
-            $table->integer('bike_part_id')->nullable(false);
+            $table->unsignedBigInteger('bike_part_id');
             $table->string('partial_number')->unique();
             $table->decimal('price', 11,2);
             $table->integer('warranty_month');

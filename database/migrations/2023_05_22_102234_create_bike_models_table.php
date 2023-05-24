@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('bike_models', function (Blueprint $table) {
             $table->id();
             $table->integer('order')->default(9999);
-            $table->integer('bike_brand_id')->nullable('false');
+            $table->unsignedBigInteger('bike_brand_id');
             $table->string('name');
             $table->timestamps();
         });

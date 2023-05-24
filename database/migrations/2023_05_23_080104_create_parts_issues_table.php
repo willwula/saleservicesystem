@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('parts_issues', function (Blueprint $table) {
             $table->id();
-            $table->integer('bike_parts_id');
+            $table->unsignedBigInteger('bike_parts_id');
             $table->string('error_code')->unique();
             $table->string('description');
             $table->timestamps();
