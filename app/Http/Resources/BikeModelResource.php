@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Models\BikeBrand;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class BikeModelResource extends JsonResource
@@ -16,9 +15,9 @@ class BikeModelResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'              => $this->id,
-            'name'            => $this->name,
-            'bike_brand_id'   => $this->bike_brand_id,
+            'id'          => $this->id,
+            'name'        => $this->name,
+            'bikeBrandId' => $this->bike_brand_id,
         ];
     }
 }
