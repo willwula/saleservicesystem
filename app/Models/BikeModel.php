@@ -16,7 +16,7 @@ class BikeModel extends Model
 
     public function bikeBrand()
     {
-        return $this->belongsTo(BikeBrand::class);
+        return $this->belongsTo(BikeBrand::class, 'bike_brand_id');
     }
 
     public function bikeMaterials()
