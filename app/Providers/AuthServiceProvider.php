@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
 use App\Models\BikeBrand;
+use App\Models\BikeModel;
 use App\Policies\BikeBrandPolicy;
+use App\Policies\BikeModelPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -15,8 +16,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
         BikeBrand::class => BikeBrandPolicy::class,
+        BikeModel::class => BikeModelPolicy::class,
 
     ];
 
