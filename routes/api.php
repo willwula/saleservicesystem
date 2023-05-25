@@ -40,4 +40,4 @@ Route::prefix('manager')->group( function () {
         Route::apiResource('managers', ManagerController::class)
             ->only('store');
     });
-});
+
