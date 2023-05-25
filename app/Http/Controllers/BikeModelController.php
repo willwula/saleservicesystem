@@ -58,7 +58,7 @@ class BikeModelController extends Controller
      */
     public function show(BikeModel $bikeModel)
     {
-//        $this->authorize('view', [BikeModel::class]); //policy
+//        $this->authorize('view', [BikeModel::class, $bikeModel]); //policy
         return BikeModelResource::make($bikeModel);
     }
 
@@ -105,7 +105,7 @@ class BikeModelController extends Controller
      */
     public function update(Request $request, BikeModel $bikeModel)
     {
-//        $this->authorize('update', [BikeModel::class]); //policy
+//        $this->authorize('update', [BikeModel::class, $bikeModel]); //policy
         $validated = $request->validate([
             'bike_brand_id' => 'int|required',
             'name'          => 'string|max:255|required',
@@ -140,7 +140,7 @@ class BikeModelController extends Controller
      */
     public function destroy(BikeModel $bikeModel)
     {
-//        $this->authorize('delete', [BikeModel::class]); //policy
+//        $this->authorize('delete', [BikeModel::class, $bikeModel]); //policy
         $bikeModel->delete();
 
         // 尚未加入刪除底下所屬 bike_materials
