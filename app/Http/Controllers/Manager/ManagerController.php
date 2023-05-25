@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Manager;
 use App\Http\Controllers\Controller;
 use App\Models\Manager;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * @GROUP manager
@@ -28,6 +30,23 @@ class ManagerController extends Controller
 
         ]);
 
-        return $manager->managers()->create($validated);
+        abort_if(
+            Manager::where('email', $request->input('email'))->first(),
+            Response::HTTP_BAD_REQUEST,
+            __('auth.duplicate email')
+        );
+
+        $manager = Manager::create(
+            array_merge(
+                $validated, ['password' => Hash::make($validated['password'])]
+            )
+        );
+
+        Auth::login($manager);
+
+        return response([
+            'data' => $manager,
+            'message' => "註冊成功"
+        ], 201);
     }
 }
