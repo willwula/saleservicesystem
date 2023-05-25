@@ -42,8 +42,7 @@ class ManagerController extends Controller
         $validated = $this->validate($request, [
             'name' => 'required|string|max:255',
             'email' => 'email|required|max:255',
-            'password' => 'required|alpha_num:ascii|min:6|max:12'
-
+            'password' => 'required|alpha_num:ascii|min:6|max:12|confirmed'
         ]);
 
         abort_if(

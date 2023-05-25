@@ -3,9 +3,9 @@
 use App\Http\Controllers\BikeBrandController;
 use App\Http\Controllers\BikeModelController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Manager\AuthController;
 use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\Manager\RegisterController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
