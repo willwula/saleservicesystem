@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Mail\RegisterSuccessMail;
-use App\Models\Customer;
 use App\Models\Manager;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

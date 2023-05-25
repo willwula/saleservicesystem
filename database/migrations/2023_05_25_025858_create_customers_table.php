@@ -13,18 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('managers', function (Blueprint $table) {
+        Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('role')->default(\App\Models\Manager::ROLE_DEALER);
-            $table->tinyInteger('status')->default(\App\Models\Manager::STATUS_EMAILVERIFIED);
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->integer('serviceCenter_id')->nullable();
-            $table->string('address')->nullable();
-            $table->string('phone')->nullable();
+            $table->string('facebook_id')->nullable();
+            $table->string('google_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
+
         });
     }
 
@@ -35,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('managers');
+        Schema::dropIfExists('customers');
     }
 };

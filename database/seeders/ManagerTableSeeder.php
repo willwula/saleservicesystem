@@ -15,12 +15,12 @@ class ManagerTableSeeder extends Seeder
      */
     public function run()
     {
-        $manager = new Manager();
-        $manager->role = Manager::ROLE_ADMIN;
-        $manager->status = Manager::STATUS_ENABLE;
-        $manager->name = 'admin';
-        $manager->email = 'admin@gmail.com';
-        $manager->password = \Hash::make('kkkkkk');
-        $manager->save();
+        Manager::create([
+            'role'=> Manager::ROLE_ADMIN,
+            'status'=> Manager::STATUS_ENABLE,
+            'name'=> 'admin',
+            'email'=> 'admin@gmail.com',
+            'password'=> \Hash::make('kkkkkk'),
+        ]);
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
-use App\Models\Book;
 use App\Models\Manager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
