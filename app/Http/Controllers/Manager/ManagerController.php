@@ -61,9 +61,5 @@ class ManagerController extends Controller
 
         return ManagerCollection::make($manager);
 
-//        return response([
-//            'data' => $manager,
-//            'message' => "註冊成功"
-//        ], 201);
     }
 }

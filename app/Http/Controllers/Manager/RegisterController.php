@@ -44,12 +44,5 @@ class RegisterController extends Controller
 
         return ManagerResource::make($manager);
 
-//        return response([
-//            'data' => ManagerCollection::make($manager->get()),
-//            ]);
-//        return response([
-//            'data' => $manager,
-//            'message' => "註冊成功"
-//        ], 201);
     }
 }
