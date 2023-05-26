@@ -20,6 +20,10 @@ class ManagerPolicy
     {
         return $manager->hasPermissionToViewAnyManagers();
     }
+    public function viewAnyCustomers(Customer $customer)
+    {
+        return $customer->hasPermissionToViewAnyCustomers();
+    }
 
     /**
      * Determine whether the user can view the model.

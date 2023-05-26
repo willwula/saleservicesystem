@@ -35,9 +35,9 @@ Route::prefix('manager')->group( function () {
     Route::post('register', [RegisterController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
 
-    Route::middleware('auth:manager')->group(function() {
+    Route::middleware('auth:manager')->group(function () {
         Route::post('logout', [AuthController::class, 'logout']);
         Route::apiResource('managers', ManagerController::class)
-            ->only('store');
+            ->only('store', 'index');
     });
-
+});
