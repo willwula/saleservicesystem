@@ -36,9 +36,9 @@ class BikeModelController extends Controller
         $bikeBrandId = $request->input('bikeBrand');
 
         abort_if(
-            $bikeBrandId === null || BikeBrand::find($bikeBrandId) === null,
+            $bikeBrandId === null || BikeModel::where('bike_brand_id', $bikeBrandId)->first() === null,
             Response::HTTP_BAD_REQUEST,
-            __('請先選擇廠牌')
+            __('請重新確認所屬廠牌')
         );
 
         $bikeModels = BikeModel::where('bike_brand_id', $bikeBrandId)->with('bikeBrand')->orderBy('order');
