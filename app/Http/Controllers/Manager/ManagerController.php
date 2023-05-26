@@ -27,7 +27,7 @@ class ManagerController extends Controller
     public function index(Request $request)
     {
         $this->authorize('viewAny', [Manager::class]);
-        $managers = Manager::orderBy('order', 'desc');
+        $managers = Manager::orderBy('id', 'desc');
 
         if ($request->boolean('paginate') === true) {
             return ManagerCollection::make($managers->paginate('20'));
@@ -59,7 +59,7 @@ class ManagerController extends Controller
 
         Auth::login($manager);
 
-        return ManagerCollection::make($managers->get());
+        return ManagerCollection::make($manager);
 
 //        return response([
 //            'data' => $manager,

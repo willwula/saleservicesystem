@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ManagerCollection;
+use App\Http\Resources\ManagerResource;
 use App\Mail\RegisterSuccessMail;
 use App\Models\Manager;
 use Illuminate\Http\Request;
@@ -41,7 +42,7 @@ class RegisterController extends Controller
 
             Auth::login($manager);
 
-        return ManagerCollection::make($manager->get());
+        return ManagerResource::make($manager);
 
 //        return response([
 //            'data' => ManagerCollection::make($manager->get()),
