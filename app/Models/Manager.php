@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Request;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -104,5 +105,17 @@ class Manager extends Authenticatable implements JWTSubject, MustVerifyEmail
     {
         //...登入角色符合權限
         return $this->isAdmin() ;
+    }
+
+    public function hasPermissionToViewManager($managerModel)
+    {
+        //...登入角色符合權限
+        return $this->isAdmin() || $this->id === $managerModel->id;
+    }
+
+    public function hasPermissionToEditManager($managerModel)
+    {
+        //...登入角色符合權限
+        return $this->isAdmin() || $this->id === $managerModel->id;
     }
 }

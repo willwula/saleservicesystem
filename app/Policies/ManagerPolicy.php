@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Manager;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Request;
 
 class ManagerPolicy
@@ -32,9 +33,11 @@ class ManagerPolicy
      * @param  \App\Models\Manager  $manager
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(Manager $manager)
+    public function view(Manager $manager, $managerModel ) //$manager = login id  $managerModel = url id
     {
-        //
+        return $manager->hasPermissionToViewManager($managerModel)
+            ? Response::allow()
+            : Response::deny('無此操作權限');
     }
 
     /**
@@ -55,9 +58,9 @@ class ManagerPolicy
      * @param  \App\Models\Manager  $manager
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(Manager $manager)
+    public function update(Manager $manager, $managerModel)
     {
-        //
+        return $manager->hasPermissionToEditManager($managerModel);
     }
 
     /**

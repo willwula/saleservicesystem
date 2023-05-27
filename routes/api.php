@@ -38,6 +38,6 @@ Route::prefix('manager')->group( function () {
     Route::middleware('auth:manager')->group(function () {
         Route::post('logout', [AuthController::class, 'logout']);
         Route::apiResource('managers', ManagerController::class)
-            ->only('store', 'index');
+            ->only('index', 'show', 'store', 'update', 'destroy');
     });
 });

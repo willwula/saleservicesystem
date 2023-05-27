@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Shipper;
+use App\Policies\Shipper;
 use Illuminate\Database\Seeder;
 
 class ShipperSeeder extends Seeder

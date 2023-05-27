@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Manager;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BikeBrandCollection;
 use App\Http\Resources\ManagerCollection;
+use App\Http\Resources\ManagerResource;
 use App\Models\Manager;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 /**
  * @GROUP manager
@@ -24,18 +26,41 @@ use Illuminate\Support\Facades\Hash;
 */
 class ManagerController extends Controller
 {
+    /**
+     * 取得manager清單
+     * @urlParam  paginate 如果是 1 提供每 3 筆分頁
+     */
     public function index(Request $request)
     {
         $this->authorize('viewAny', [Manager::class]);
         $managers = Manager::orderBy('id', 'desc');
 
         if ($request->boolean('paginate') === true) {
-            return ManagerCollection::make($managers->paginate('20'));
+            return ManagerCollection::make($managers->paginate('3'));
         }
 
         return ManagerCollection::make($managers->get());
     }
+    /**
+     * 查看單一 manager 內容
+     *
+     * @urlParam id manager_id
+     */
+    public function show($id)  //$id =  url id
+    {
+        $managerModel = Manager::findOrFail($id);
+//        dd($managerModel);
+        $this->authorize('view', [Manager::class, $managerModel]);
 
+        return ManagerResource::make($managerModel);
+    }
+    /**
+     * 新增 manager
+     *
+     * @bodyparam name string:255
+     * @bodyparam email string:255
+     *
+     */
     public function store(Request $request)
     {
         $this->authorize('create', [Manager::class]);
@@ -59,7 +84,35 @@ class ManagerController extends Controller
 
         Auth::login($manager);
 
-        return ManagerCollection::make($manager);
+        return ManagerResource::make($manager);
 
+    }
+
+    /**
+     * 更新一筆 manager 內容
+     *
+     * @urlParam id
+     */
+    public function update(Request $request,Manager $manager)
+    {
+//        dd($manager->id);
+        $this->authorize('update', $manager);
+        $validated = $request->validate([
+            'role' => 'readonly|tinyInteger',
+            'name' => 'required|string|max:255',
+            'email' => [
+                'required',
+                Rule::unique('managers')->ignore($manager),
+            ],
+            'password' => 'required|alpha_num:ascii|min:6|max:12|confirmed'
+        ]);
+
+        $manager->update(
+            array_merge(
+                $validated, ['password' => Hash::make($validated['password'])]
+            )
+        );
+
+        return ManagerResource::make($manager);
     }
 }
