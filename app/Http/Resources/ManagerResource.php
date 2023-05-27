@@ -16,6 +16,7 @@ class ManagerResource extends JsonResource
     {
         return [
             'role'  => $this->role,
+            'status' => $this->status,
             'name'  => $this->name,
             'email' => $this->email,
             'address' => $this->address,

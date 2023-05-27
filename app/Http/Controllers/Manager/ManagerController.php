@@ -65,9 +65,12 @@ class ManagerController extends Controller
     {
         $this->authorize('create', [Manager::class]);
         $validated = $this->validate($request, [
+            'role' => 'required|Integer',
+            'status' => 'required|Integer',
             'name' => 'required|string|max:255',
             'email' => 'email|required|max:255',
-            'password' => 'required|alpha_num:ascii|min:6|max:12|confirmed'
+            'password' => 'required|alpha_num:ascii|min:6|max:12|confirmed',
+            'serviceCenter_id' => 'Integer',
         ]);
 
         abort_if(
@@ -124,7 +127,7 @@ class ManagerController extends Controller
     public function destroy($id)
     {
         $managerModel = Manager::find($id);
-        
+
         abort_if(! $managerModel,Response::HTTP_BAD_REQUEST,__('auth.not found'));
 
         $this->authorize('delete', [Manager::class, $managerModel]);
