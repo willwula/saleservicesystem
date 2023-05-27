@@ -70,9 +70,9 @@ class ManagerPolicy
      * @param  \App\Models\Manager  $manager
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(Manager $manager)
+    public function delete(Manager $manager, $managerModel)
     {
-        //
+        return $manager->hasPermissionToDeleteManager($managerModel);
     }
 
 

@@ -118,4 +118,10 @@ class Manager extends Authenticatable implements JWTSubject, MustVerifyEmail
         //...登入角色符合權限
         return $this->isAdmin() || $this->id === $managerModel->id;
     }
+
+    public function hasPermissionToDeleteManager()
+    {
+        //...登入角色符合權限
+        return $this->isAdmin() ;
+    }
 }

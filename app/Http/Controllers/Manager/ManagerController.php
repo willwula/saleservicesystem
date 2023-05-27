@@ -115,4 +115,19 @@ class ManagerController extends Controller
 
         return ManagerResource::make($manager);
     }
+
+    /**
+     * 刪除一個 manager
+     *
+     * @urlParam id
+     */
+    public function destroy($id)
+    {
+        $managerModel = Manager::findOrFail($id);
+        $this->authorize('delete', [Manager::class, $managerModel]);
+
+        $managerModel->delete();
+
+        return '刪除成功';
+    }
 }
