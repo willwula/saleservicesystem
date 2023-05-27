@@ -123,7 +123,10 @@ class ManagerController extends Controller
      */
     public function destroy($id)
     {
-        $managerModel = Manager::findOrFail($id);
+        $managerModel = Manager::find($id);
+        
+        abort_if(! $managerModel,Response::HTTP_BAD_REQUEST,__('auth.not found'));
+
         $this->authorize('delete', [Manager::class, $managerModel]);
 
         $managerModel->delete();
