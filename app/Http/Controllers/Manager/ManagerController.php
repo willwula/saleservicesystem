@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\BikeBrandCollection;
 use App\Http\Resources\ManagerCollection;
 use App\Http\Resources\ManagerResource;
 use App\Models\Manager;

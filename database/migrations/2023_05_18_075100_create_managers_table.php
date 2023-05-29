@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('managers', function (Blueprint $table) {
             $table->id();
             $table->tinyInteger('role')->default(\App\Models\Manager::ROLE_DEALER);
-            $table->tinyInteger('status')->default(\App\Models\Manager::STATUS_EMAILVERIFIED);
+            $table->tinyInteger('status')->default(\App\Models\Manager::STATUS_DISABLED);
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');

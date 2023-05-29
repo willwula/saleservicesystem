@@ -19,7 +19,7 @@ class ManagerPolicy
      */
     public function viewAny(Manager $manager)
     {
-        return $manager->hasPermissionToViewAnyManagers();
+        return $manager->hasPermissionToViewAnyManagers() || $manager->hasPermissionToViewOwnDealer();
     }
     public function viewAnyCustomers(Customer $customer)
     {
@@ -35,7 +35,7 @@ class ManagerPolicy
      */
     public function view(Manager $manager, $managerModel ) //$manager = login id  $managerModel = url id
     {
-        return $manager->hasPermissionToViewManager($managerModel)
+        return $manager->hasPermissionToViewManager($managerModel) || $manager->hasPermissionToViewDealer($managerModel)
             ? Response::allow()
             : Response::deny('無此操作權限');
     }
@@ -48,7 +48,7 @@ class ManagerPolicy
      */
     public function create(Manager $manager): \Illuminate\Auth\Access\Response|bool
     {
-        return $manager->hasPermissionToCreateServiceCenter();
+        return $manager->hasPermissionToCreateAllManagers() || $manager->hasPermissionToCreateDealer();
     }
 
     /**
@@ -60,7 +60,7 @@ class ManagerPolicy
      */
     public function update(Manager $manager, $managerModel)
     {
-        return $manager->hasPermissionToEditManager($managerModel);
+        return $manager->hasPermissionToEditManager($managerModel) || $manager->hasPermissionToEditDealer($managerModel);
     }
 
     /**

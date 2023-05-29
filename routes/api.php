@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Manager\AuthController;
 use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\Manager\RegisterController;
+use App\Http\Controllers\ServiceCenter\ServiceCenterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,5 +40,7 @@ Route::prefix('manager')->group( function () {
         Route::post('logout', [AuthController::class, 'logout']);
         Route::apiResource('managers', ManagerController::class)
             ->only('index', 'show', 'store', 'update', 'destroy');
+        Route::apiResource('service-centers', ServiceCenterController::class)
+            ->only('index', 'show', 'update');
     });
 });

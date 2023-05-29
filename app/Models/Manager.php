@@ -65,41 +65,46 @@ class Manager extends Authenticatable implements JWTSubject, MustVerifyEmail
         return $this->role === self::ROLE_DEALER;
     }
 
-    public function isDisabled(): bool
+    public function isDisabled(): bool //停用
     {
         return $this->status === self::STATUS_DISABLED;
     }
 
-    public function isEnable(): bool
+    public function isEnable(): bool  //啟用
     {
     return $this->status === self::STATUS_ENABLE;
     }
 
-    public function isPending(): bool
+    public function isPending(): bool  //待審核
     {
         return $this->status === self::STATUS_PENDING;
     }
 
-    public function isEmailVerified(): bool
+    public function isEmailVerified(): bool //待驗證
     {
         return $this->status === self::STATUS_EMAILVERIFIED;
     }
 
-    public function hasPermissionToCreateServiceCenter()
+    public function hasPermissionToCreateAllManagers()
     {
         //...登入角色符合權限
-        return $this->isAdmin() ;
-
-    }   public function hasPermissionToCreateAdmin()
-    {
-        //...登入角色符合權限
-        return $this->isAdmin() ;
+        return $this->isAdmin();
     }
-    public function hasPermissionToCreatrDealer()
 
+//    public function hasPermissionToCreateAdmin()
+//    {
+//        //...登入角色符合權限
+//        return $this->isAdmin() ;
+//    }
+    public function hasPermissionToViewOwnDealer()
     {
         //...登入角色符合權限
-        return $this->isAdmin() || $this->isServiceCenter();
+        return $this->isServiceCenter() ;
+    }
+    public function hasPermissionToViewDealer($managerModel)
+    {
+        //...登入角色符合權限
+        return $this->isAdmin() || $this->id === $managerModel->serviceCenter_id;
     }
     public function hasPermissionToViewAnyManagers()
     {
@@ -117,6 +122,12 @@ class Manager extends Authenticatable implements JWTSubject, MustVerifyEmail
     {
         //...登入角色符合權限
         return $this->isAdmin() || $this->id === $managerModel->id;
+    }
+
+    public function hasPermissionToEditDealer($managerModel)
+    {
+        //...登入角色符合權限
+        return $this->isAdmin() || $this->id === $managerModel->serviceCenter_id;
     }
 
     public function hasPermissionToDeleteManager()

@@ -23,11 +23,11 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $validated = $this->validate($request, [
-            'role' => 'required|Integer',
-            'status' => 'required|Integer',
             'name' => 'required|string|max:255',
             'email' => 'email|required|max:255',
             'password' => 'required|alpha_num:ascii|min:6|max:12|confirmed',
+            'phone' => 'string|max:14',
+            'address' => 'string|max:255',
             'serviceCenter_id' => 'Integer',
         ]);
 
