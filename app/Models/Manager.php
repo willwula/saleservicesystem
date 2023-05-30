@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Request;
@@ -12,7 +13,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class Manager extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
     const ROLE_ADMIN= 0;
     const ROLE_SERVICECENTER= 1;
     const ROLE_DEALER= 2;
@@ -134,5 +135,11 @@ class Manager extends Authenticatable implements JWTSubject, MustVerifyEmail
     {
         //...登入角色符合權限
         return $this->isAdmin() ;
+    }
+
+    public function hasPermissionToCreateDealer()
+    {
+        //...登入角色符合權限
+        return $this->isAdmin() || $this->isServiceCenter();
     }
 }
