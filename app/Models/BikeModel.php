@@ -23,5 +23,4 @@ class BikeModel extends Model
     {
         return $this->belongsToMany(BikeMaterial::class)->withTimestamps();
     }
-
 }
