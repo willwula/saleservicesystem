@@ -26,6 +26,7 @@ class BikeModelController extends Controller
      *
      * 車款列表，可用於下拉式選單或廠牌清單
      * 需提供所屬廠牌id
+     *
      * @urlParam  bikeBrand 所屬廠牌的id Example: ?bikeBrand=1
      * @urlParam  paginate 如果是 1 提供每 20 筆分頁 Example: ?paginate=1
      *
@@ -44,7 +45,7 @@ class BikeModelController extends Controller
         $bikeModels = BikeModel::where('bike_brand_id', $bikeBrandId)->with('bikeBrand')->orderBy('order');
 
         // 如果前端想要分頁顯示
-        if ($request->boolean('paginate') === true) {
+        if ($request->boolean('paginate')) {
             return BikeModelCollection::make($bikeModels->paginate('20'));
         }
 
@@ -59,7 +60,7 @@ class BikeModelController extends Controller
     public function show(BikeModel $bikeModel)
     {
 //        $this->authorize('view', [BikeModel::class, $bikeModel]); //policy
-        return BikeModelResource::make($bikeModel);
+        return BikeModelResource::make($bikeModel->load('bikeBrand'));
     }
 
     /**
@@ -145,6 +146,6 @@ class BikeModelController extends Controller
 
         // 尚未加入刪除底下所屬 bike_materials
 
-        return 'successful';
+        return response(['data' => ['message' => 'successful']]);
     }
 }

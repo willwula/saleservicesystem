@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\BikeBrand;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class BikeModelResource extends JsonResource
@@ -17,7 +18,7 @@ class BikeModelResource extends JsonResource
         return [
             'id'          => $this->id,
             'name'        => $this->name,
-            'bikeBrandId' => $this->bike_brand_id,
+            'bikeBrand' => BikeBrandResource::make($this->whenLoaded('bikeBrand')),
         ];
     }
 }
