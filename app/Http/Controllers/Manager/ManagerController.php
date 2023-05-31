@@ -27,15 +27,21 @@ class ManagerController extends Controller
 {
     /**
      * 取得manager清單
-     * @urlParam  paginate 如果是 1 提供每 3 筆分頁
+     * @urlParam  paginate 如果是 true 提供每 20 筆分頁
      */
     public function index(Request $request)
     {
         $this->authorize('viewAny', [Manager::class]);
+
+        $user = Auth::user();
         $managers = Manager::orderBy('id', 'desc');
 
-        if ($request->boolean('paginate') === true) {
-            return ManagerCollection::make($managers->paginate('3'));
+        if ($user->isServiceCenter()) {
+            $managers->where('service_center_id', $user->getKey());
+        }
+
+        if ($request->boolean('paginate')) {
+            return ManagerCollection::make($managers->paginate(20));
         }
 
         return ManagerCollection::make($managers->get());
@@ -45,13 +51,15 @@ class ManagerController extends Controller
      *
      * @urlParam id manager_id
      */
-    public function show($id)  //$id =  url id
+    public function show(Manager $manager)  //$id =  url id
     {
-        $managerModel = Manager::findOrFail($id);
-//        dd($managerModel);
-        $this->authorize('view', [Manager::class, $managerModel]);
+        $this->authorize('view', [Manager::class, $manager]);
 
-        return ManagerResource::make($managerModel);
+        if ($manager->isDealer()) {
+            $manager->load('serviceCenter');
+        }
+
+        return ManagerResource::make($manager);
     }
     /**
      * 新增 manager
@@ -64,12 +72,14 @@ class ManagerController extends Controller
     {
         $this->authorize('create', [Manager::class]);
         $validated = $this->validate($request, [
-            'role' => 'required|Integer',
-            'status' => 'required|Integer',
+            'role' => 'required|integer',
+            'status' => 'required|integer',
             'name' => 'required|string|max:255',
             'email' => 'email|required|max:255',
             'password' => 'required|alpha_num:ascii|min:6|max:12|confirmed',
-            'serviceCenter_id' => 'Integer',
+            'service_center_id' => 'required_if:role,2|integer',
+            'address' => 'nullable|max:255',
+            'phone' => 'nullable|max:255',
         ]);
 
         abort_if(
@@ -84,7 +94,9 @@ class ManagerController extends Controller
             )
         );
 
-        Auth::login($manager);
+        if ($manager->isDealer()) {
+            $manager->load('serviceCenter');
+        }
 
         return ManagerResource::make($manager);
 
@@ -97,23 +109,27 @@ class ManagerController extends Controller
      */
     public function update(Request $request,Manager $manager)
     {
-//        dd($manager->id);
         $this->authorize('update', $manager);
         $validated = $request->validate([
-            'role' => 'readonly|tinyInteger',
+            'role' => 'required|integer',
             'name' => 'required|string|max:255',
             'email' => [
-                'required',
+                'nullable',
                 Rule::unique('managers')->ignore($manager),
             ],
-            'password' => 'required|alpha_num:ascii|min:6|max:12|confirmed'
+            'password' => 'nullable|alpha_num:ascii|min:6|max:12|confirmed'
         ]);
 
-        $manager->update(
+        if ($request->input('password')) {
             array_merge(
                 $validated, ['password' => Hash::make($validated['password'])]
-            )
-        );
+            );
+        }
+        $manager->update($validated);
+
+        if ($manager->isDealer()) {
+            $manager->load('serviceCenter');
+        }
 
         return ManagerResource::make($manager);
     }
@@ -123,15 +139,11 @@ class ManagerController extends Controller
      *
      * @urlParam id
      */
-    public function destroy($id)
+    public function destroy(Manager $manager)
     {
-        $managerModel = Manager::find($id);
+        $this->authorize('delete', [Manager::class, $manager]);
 
-        abort_if(! $managerModel,Response::HTTP_BAD_REQUEST,__('auth.not found'));
-
-        $this->authorize('delete', [Manager::class, $managerModel]);
-
-        $managerModel->delete();
+        $manager->delete();
 
         return '刪除成功';
     }

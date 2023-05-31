@@ -21,10 +21,6 @@ class ManagerPolicy
     {
         return $manager->hasPermissionToViewAnyManagers() || $manager->hasPermissionToViewOwnDealer();
     }
-    public function viewAnyCustomers(Customer $customer)
-    {
-        return $customer->hasPermissionToViewAnyCustomers();
-    }
 
     /**
      * Determine whether the user can view the model.
@@ -48,7 +44,7 @@ class ManagerPolicy
      */
     public function create(Manager $manager): \Illuminate\Auth\Access\Response|bool
     {
-        return $manager->hasPermissionToCreateAllManagers() || $manager->hasPermissionToCreateDealer();
+        return $manager->isAdmin();
     }
 
     /**

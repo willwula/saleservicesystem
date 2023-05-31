@@ -3,14 +3,11 @@
 namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ManagerCollection;
 use App\Http\Resources\ManagerResource;
-use App\Mail\RegisterSuccessMail;
 use App\Models\Manager;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 /**
@@ -26,9 +23,9 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'email|required|max:255',
             'password' => 'required|alpha_num:ascii|min:6|max:12|confirmed',
-            'phone' => 'string|max:14',
-            'address' => 'string|max:255',
-            'serviceCenter_id' => 'Integer',
+            'phone' => 'nullable|string|max:14',
+            'address' => 'nullable|string|max:255',
+            'service_center_id' => 'required|integer',
         ]);
 
         abort_if(
@@ -43,9 +40,7 @@ class RegisterController extends Controller
                 )
             );
 
-            Auth::login($manager);
-
-        return ManagerResource::make($manager);
+        return ManagerResource::make($manager->load('serviceCenter'));
 
     }
 }

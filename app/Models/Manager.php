@@ -14,6 +14,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 class Manager extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+
     const ROLE_ADMIN= 0;
     const ROLE_SERVICECENTER= 1;
     const ROLE_DEALER= 2;
@@ -21,6 +22,7 @@ class Manager extends Authenticatable implements JWTSubject, MustVerifyEmail
     const STATUS_ENABLE= 1;
     const STATUS_PENDING= 2;
     const STATUS_EMAILVERIFIED= 3;
+
     protected $fillable = [
         'name',
         'role',
@@ -28,7 +30,7 @@ class Manager extends Authenticatable implements JWTSubject, MustVerifyEmail
         'email',
         'phone',
         'address',
-        'serviceCenter_id',
+        'service_center_id',
         'password',
         'email_verified_at',
     ];
@@ -39,8 +41,16 @@ class Manager extends Authenticatable implements JWTSubject, MustVerifyEmail
     ];
 
     protected $casts = [
+        'role' => 'integer',
+        'status' => 'integer',
         'email_verified_at' => 'datetime',
     ];
+
+    public function serviceCenter()
+    {
+        return $this->belongsTo(Manager::class);
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -86,26 +96,16 @@ class Manager extends Authenticatable implements JWTSubject, MustVerifyEmail
         return $this->status === self::STATUS_EMAILVERIFIED;
     }
 
-    public function hasPermissionToCreateAllManagers()
-    {
-        //...登入角色符合權限
-        return $this->isAdmin();
-    }
-
-//    public function hasPermissionToCreateAdmin()
-//    {
-//        //...登入角色符合權限
-//        return $this->isAdmin() ;
-//    }
     public function hasPermissionToViewOwnDealer()
     {
         //...登入角色符合權限
         return $this->isServiceCenter() ;
     }
+
     public function hasPermissionToViewDealer($managerModel)
     {
         //...登入角色符合權限
-        return $this->isAdmin() || $this->id === $managerModel->serviceCenter_id;
+        return $this->isAdmin() || $this->id === $managerModel->service_center_id;
     }
     public function hasPermissionToViewAnyManagers()
     {
@@ -128,18 +128,12 @@ class Manager extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function hasPermissionToEditDealer($managerModel)
     {
         //...登入角色符合權限
-        return $this->isAdmin() || $this->id === $managerModel->serviceCenter_id;
+        return $this->isAdmin() || $this->id === $managerModel->service_center_id;
     }
 
     public function hasPermissionToDeleteManager()
     {
         //...登入角色符合權限
         return $this->isAdmin() ;
-    }
-
-    public function hasPermissionToCreateDealer()
-    {
-        //...登入角色符合權限
-        return $this->isAdmin() || $this->isServiceCenter();
     }
 }
