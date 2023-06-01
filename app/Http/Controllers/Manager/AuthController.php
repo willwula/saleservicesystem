@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Manager Login
+ *
+ * @subgroup 後台管理者登入登出
+ * @bodyparam password 密碼為kkkkkk
+ */
+
 class AuthController extends Controller
 {
     public function login(Request $request)

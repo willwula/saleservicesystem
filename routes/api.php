@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Manager\AuthController;
 use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\Manager\RegisterController;
+use App\Http\Controllers\Customer\RegisterController as CustomerRegisterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,19 +20,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 // 尚未加入middleware
 Route::resource('bike-brands', BikeBrandController::class)
     ->only('index', 'show', 'store', 'update', 'destroy');
 Route::resource('bike-models', BikeModelController::class)
     ->only('index', 'show', 'store', 'update', 'destroy');
 
-Route::apiResource('products', ProductController::class)->only('index','store');
+Route::apiResource('products', ProductController::class)->only('index', 'store');
 
-Route::prefix('manager')->group( function () {
+Route::prefix('customer')->group(function () {
+    Route::post('register', [CustomerRegisterController::class, 'register']);
+});
+
+Route::prefix('manager')->group(function () {
     Route::post('register', [RegisterController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
 

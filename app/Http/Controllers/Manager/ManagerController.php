@@ -18,10 +18,10 @@ use Illuminate\Validation\Rule;
  * manger_CRUD
  *
  * @subgroup 帳號管理
- * @description 管理員可對所有對象Creat,Read,Update,Delete，
- *              服務中心可對旗下經銷商Read, Update,
- *              經銷商可對自己Create, Update,
- *              自己可對自己Update.
+ * @subgroupdescription 管理員可對所有對象Creat,Read,Update,Delete，
+ *                      服務中心可對旗下經銷商Read, Update,
+ *                      經銷商可對自己Create, Update,
+ *                      自己可對自己Update.
 */
 class ManagerController extends Controller
 {
@@ -31,13 +31,28 @@ class ManagerController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('viewAny', [Manager::class]);
+        $this->authorize('viewAny', [Manager::class, $request->user()]);
 
         $user = Auth::user();
         $managers = Manager::orderBy('id', 'desc');
 
         if ($user->isServiceCenter()) {
             $managers->where('service_center_id', $user->getKey());
+        }
+
+        //經銷商帳號管理列表中，待審經銷商帳號，帳號狀態與關鍵字搜尋 ex.啟用和停用
+        if ($request->has('status')) {
+            $status = $request->input('status');
+            $managers->where('status', $status);
+        }
+
+        //關鍵字搜尋
+        if ($request->has('keyword')) {
+            $keyword = $request->input('keyword');
+            $managers->where(function ($query) use ($keyword) {
+                $query->where('name', 'LIKE', "%$keyword%")
+                    ->orWhere('email', 'LIKE', "%$keyword%");
+            });
         }
 
         if ($request->boolean('paginate')) {
@@ -66,6 +81,10 @@ class ManagerController extends Controller
      *
      * @bodyparam name string:255
      * @bodyparam email string:255
+     * @bodyparam role tinyIntger
+     * 0=admin,
+     * 1=serviceCenter,
+     * 2=dealer
      *
      */
     public function store(Request $request)
