@@ -7,6 +7,7 @@ use App\Http\Controllers\Manager\AuthController;
 use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\Manager\RegisterController;
 use App\Http\Controllers\Customer\RegisterController as CustomerRegisterController;
+use App\Http\Controllers\Customer\AuthController as CustomerAuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +31,7 @@ Route::apiResource('products', ProductController::class)->only('index', 'store')
 
 Route::prefix('customer')->group(function () {
     Route::post('register', [CustomerRegisterController::class, 'register']);
+    Route::post('login', [CustomerAuthController::class, 'login']);
 });
 
 Route::prefix('manager')->group(function () {
