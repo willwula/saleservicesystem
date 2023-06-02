@@ -26,12 +26,12 @@ class ManagerPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\Manager  $manager
-     * @param  \App\Models\Manager  $manager
+     * @param  \App\Models\Manager  $managerModel
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(Manager $manager, $managerModel ) //$manager = login id  $managerModel = url id
+    public function view(Manager $manager, Manager $managerModel ) //$manager = login id  $managerModel = url id
     {
-        return $manager->hasPermissionToViewManager($managerModel) || $manager->hasPermissionToViewDealer($managerModel)
+        return ($manager->hasPermissionToViewManager($managerModel) || $manager->hasPermissionToViewDealer($managerModel))
             ? Response::allow()
             : Response::deny('無此操作權限');
     }
@@ -51,10 +51,10 @@ class ManagerPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\Manager  $manager
-     * @param  \App\Models\Manager  $manager
+     * @param  \App\Models\Manager  $managerModel
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(Manager $manager, $managerModel)
+    public function update(Manager $manager, Manager $managerModel)
     {
         return $manager->hasPermissionToEditManager($managerModel) || $manager->hasPermissionToEditDealer($managerModel);
     }
@@ -63,10 +63,10 @@ class ManagerPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\Manager  $manager
-     * @param  \App\Models\Manager  $manager
+     * @param  \App\Models\Manager  $managerModel
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(Manager $manager, $managerModel)
+    public function delete(Manager $manager, Manager $managerModel)
     {
         return $manager->hasPermissionToDeleteManager($managerModel);
     }

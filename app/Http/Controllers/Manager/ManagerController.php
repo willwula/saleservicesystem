@@ -130,7 +130,7 @@ class ManagerController extends Controller
     {
         $this->authorize('update', $manager);
         $validated = $request->validate([
-            'role' => 'required|integer',
+            'status' => 'required|integer',
             'name' => 'required|string|max:255',
             'email' => [
                 'nullable',

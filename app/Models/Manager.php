@@ -102,7 +102,7 @@ class Manager extends Authenticatable implements JWTSubject, MustVerifyEmail
         return $this->isServiceCenter() ;
     }
 
-    public function hasPermissionToViewDealer($managerModel)
+    public function hasPermissionToViewDealer(Manager $managerModel)
     {
         //...登入角色符合權限
         return $this->isAdmin() || $this->id === $managerModel->service_center_id;
@@ -113,19 +113,19 @@ class Manager extends Authenticatable implements JWTSubject, MustVerifyEmail
         return $this->isAdmin() ;
     }
 
-    public function hasPermissionToViewManager($managerModel)
+    public function hasPermissionToViewManager(Manager $managerModel)
     {
         //...登入角色符合權限
         return $this->isAdmin() || $this->id === $managerModel->id;
     }
 
-    public function hasPermissionToEditManager($managerModel)
+    public function hasPermissionToEditManager(Manager $managerModel)
     {
         //...登入角色符合權限
         return $this->isAdmin() || $this->id === $managerModel->id;
     }
 
-    public function hasPermissionToEditDealer($managerModel)
+    public function hasPermissionToEditDealer(Manager $managerModel)
     {
         //...登入角色符合權限
         return $this->isAdmin() || $this->id === $managerModel->service_center_id;
