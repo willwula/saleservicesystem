@@ -15,13 +15,13 @@ class Manager extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
-    const ROLE_ADMIN= 0;
-    const ROLE_SERVICECENTER= 1;
-    const ROLE_DEALER= 2;
-    const STATUS_DISABLED= 0;
-    const STATUS_ENABLE= 1;
-    const STATUS_PENDING= 2;
-    const STATUS_EMAILVERIFIED= 3;
+    const ROLE_ADMIN = 0;
+    const ROLE_SERVICECENTER = 1;
+    const ROLE_DEALER = 2;
+    const STATUS_DISABLED = 0;
+    const STATUS_ENABLE = 1;
+    const STATUS_PENDING = 2;
+    const STATUS_EMAILVERIFIED = 3;
 
     protected $fillable = [
         'name',
@@ -41,8 +41,8 @@ class Manager extends Authenticatable implements JWTSubject, MustVerifyEmail
     ];
 
     protected $casts = [
-        'role' => 'integer',
-        'status' => 'integer',
+        'role'              => 'integer',
+        'status'            => 'integer',
         'email_verified_at' => 'datetime',
     ];
 
@@ -83,7 +83,7 @@ class Manager extends Authenticatable implements JWTSubject, MustVerifyEmail
 
     public function isEnable(): bool  //啟用
     {
-    return $this->status === self::STATUS_ENABLE;
+        return $this->status === self::STATUS_ENABLE;
     }
 
     public function isPending(): bool  //待審核
@@ -99,7 +99,7 @@ class Manager extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function hasPermissionToViewOwnDealer()
     {
         //...登入角色符合權限
-        return $this->isServiceCenter() ;
+        return $this->isServiceCenter();
     }
 
     public function hasPermissionToViewDealer(Manager $managerModel)
@@ -107,10 +107,11 @@ class Manager extends Authenticatable implements JWTSubject, MustVerifyEmail
         //...登入角色符合權限
         return $this->isAdmin() || $this->id === $managerModel->service_center_id;
     }
+
     public function hasPermissionToViewAnyManagers()
     {
         //...登入角色符合權限
-        return $this->isAdmin() ;
+        return $this->isAdmin();
     }
 
     public function hasPermissionToViewManager(Manager $managerModel)
@@ -134,6 +135,16 @@ class Manager extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function hasPermissionToDeleteManager()
     {
         //...登入角色符合權限
-        return $this->isAdmin() ;
+        return $this->isAdmin();
+    }
+
+    public function hasPermissionToViewAnyCustomers()
+    {
+        return $this->isAdmin();
+    }
+
+    public function hasPermissionToDeleteCustomer()
+    {
+        return $this->isAdmin();
     }
 }

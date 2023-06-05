@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use App\Models\BikeBrand;
 use App\Models\BikeModel;
+use App\Models\Customer;
 use App\Models\Manager;
 use App\Policies\BikeBrandPolicy;
 use App\Policies\BikeModelPolicy;
+use App\Policies\CustomerPolicy;
 use App\Policies\ManagerPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -21,6 +23,7 @@ class AuthServiceProvider extends ServiceProvider
         BikeBrand::class => BikeBrandPolicy::class,
         BikeModel::class => BikeModelPolicy::class,
         Manager::class   => ManagerPolicy::class,
+        Customer::class   => CustomerPolicy::class,
     ];
 
     /**

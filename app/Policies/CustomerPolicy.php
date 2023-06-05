@@ -5,6 +5,9 @@ namespace App\Policies;
 use App\Models\Customer;
 use App\Models\Manager;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Http\Request;
 
 class CustomerPolicy
 {
@@ -13,82 +16,60 @@ class CustomerPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\Models\Manager  $manager
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param Manager $manager
+     * @return Response|bool
      */
     public function viewAny(Manager $manager)
     {
-        //
+        return $manager->hasPermissionToViewAnyCustomers()
+              ? Response::allow()
+              : Response::deny('無此操作權限');
     }
 
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\Manager  $manager
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Customer $customer
+     * @return Response|bool
      */
-    public function view(Manager $manager, Customer $customer)
+    public function view(User $user, Customer $customer)
     {
-        //
-    }
+        if ($user instanceof Manager && $user->isAdmin()) {
+            // 如果目前登入者是 Manager 的 admin，允許查看客戶資料
+            return Response::allow();
+        }
 
-    /**
-     * Determine whether the user can create models.
-     *
-     * @param  \App\Models\Manager  $manager
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function create(Manager $manager)
-    {
-        //
+        if ($user instanceof Customer && $user->getKey() === $customer->getKey()) {
+            // 如果目前登入者就是該客戶，則允許查看自己的資料
+            return Response::allow();
+        }
+
+        return Response::deny('無此操作權限'); // 其他情況則拒絕存取
     }
 
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\Manager  $manager
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param Manager $manager
+     * @return Response|bool
      */
-    public function update(Manager $manager, Customer $customer)
+    public function update(Customer $customer, Customer $customerModel)
     {
-        //
+        return $customer->hasPermissionToEditCustomer($customerModel)
+            ? Response::allow()
+            : Response::deny('無此操作權限');
     }
-
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\Models\Manager  $manager
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param Manager $manager
+     * @return Response|bool
      */
-    public function delete(Manager $manager, Customer $customer)
+    public function delete(Manager $manager)
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\Manager  $manager
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function restore(Manager $manager, Customer $customer)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\Manager  $manager
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(Manager $manager, Customer $customer)
-    {
-        //
+        return $manager->hasPermissionToDeleteCustomer()
+            ? Response::allow()
+            : Response::deny('無此操作權限');
     }
 }

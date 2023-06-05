@@ -38,4 +38,16 @@ class Customer extends Authenticatable implements JWTSubject, MustVerifyEmail
     {
         return [];
     }
+
+    public function hasPermissionToViewCustomer(Customer $customer)
+    {
+        //...登入角色符合權限
+        return $this->id === $customer->id;
+    }
+
+    public function hasPermissionToEditCustomer(Customer $customer)
+    {
+        //...登入角色符合權限
+        return $this->id === $customer->id;
+    }
 }

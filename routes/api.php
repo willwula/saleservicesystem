@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BikeBrandController;
 use App\Http\Controllers\BikeModelController;
+use App\Http\Controllers\Customer\CustomerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Manager\AuthController;
 use App\Http\Controllers\Manager\ManagerController;
@@ -32,6 +33,12 @@ Route::apiResource('products', ProductController::class)->only('index', 'store')
 Route::prefix('customer')->group(function () {
     Route::post('register', [CustomerRegisterController::class, 'register']);
     Route::post('login', [CustomerAuthController::class, 'login']);
+
+    Route::middleware('auth:manager,customer')->group(function () { //auth加入manager和customer兩個guard
+        Route::post('logout', [CustomerAuthController::class, 'logout']);
+        Route::apiResource('customers', CustomerController::class)
+            ->only('index', 'show', 'store', 'update', 'destroy');
+    });
 });
 
 Route::prefix('manager')->group(function () {

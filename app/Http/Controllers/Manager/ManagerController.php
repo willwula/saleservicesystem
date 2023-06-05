@@ -74,6 +74,12 @@ class ManagerController extends Controller
             $manager->load('serviceCenter');
         }
 
+        abort_if(!
+             Manager::where('id', $manager->id)->first(),
+            Response::HTTP_BAD_REQUEST,
+            __('table.not found')
+        );
+
         return ManagerResource::make($manager);
     }
     /**
@@ -81,7 +87,7 @@ class ManagerController extends Controller
      *
      * @bodyparam name string:255
      * @bodyparam email string:255
-     * @bodyparam role tinyIntger
+     * @bodyparam role Integer
      * 0=admin,
      * 1=serviceCenter,
      * 2=dealer
@@ -140,9 +146,7 @@ class ManagerController extends Controller
         ]);
 
         if ($request->input('password')) {
-            array_merge(
-                $validated, ['password' => Hash::make($validated['password'])]
-            );
+            $validated['password'] = Hash::make($request->input('password'));
         }
         $manager->update($validated);
 
